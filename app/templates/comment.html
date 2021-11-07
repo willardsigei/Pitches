@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf%}
+{% import 'macros.html' as macro %}
+{% block content %}
+<div>
+    <div class="container">
+        <div class="row">
+        <div class="col-sm"> 
+        </div>
+        <div class="col-sm">
+            <h3 class="pt-3">Comments</h3>
+        
+            {% if current_user.is_authenticated %}
+            {{ wtf.quick_form(commentForm) }}
+            {%endif%}
+            <h3>Display comments</h3>
+            {{macro.displayComments(comments)}}
+        
+        </div>
+        <div class="col-md-2"></div>
+        </div>
+        </div>
+
+</div>
+{% endblock %}
