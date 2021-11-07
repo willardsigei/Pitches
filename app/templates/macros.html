@@ -1,0 +1,33 @@
+{% macro displayPitches(pitches_list)%}  
+{%for pitch in pitches_list%}  
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 review-card">       
+        <div class="well well-lg">        
+            <h4>{{pitch.title}}</h4>       
+                <p>{{pitch.content| truncate(100)}}</p>        
+                <p>Written by:  {{pitch.user.username}}
+
+
+    <span>
+        <a class="pr-5" href="#">
+            <i style='font-size:30px;color:rgb(16, 133, 26)' class="far fa-thumbs-up" (click)='upVote(quote)'>Like</i>
+          </a>
+    </span>
+                   
+                      <a class="pr-5">Dislike
+                        <i style='font-size:30px;color:red' (click)='downVote(quote)' class="far fa-thumbs-down"></i>
+                 <a href="/comment/{{pitch.id}}" class="btn btn-primary pull-right">Comment</a> </p>     
+        </div>    
+    </div>  
+{%endfor%}
+    
+{%endmacro%}
+
+{%macro displayComments(comments_list)%}
+    {%for comment in comments_list%}
+        <div class="col-md-12">
+            <h5>{{comment.user.username}}</h5>
+            <p>{{comment.comment}}</p>
+        </div>
+    {%endfor%}
+{%endmacro%}
+
