@@ -61,7 +61,7 @@ def newPitch():
 def display_interview():
     
     pitches = Pitch.get_pitches('interview')
-    return render_template('categories/interview.html',pitches=pitches)
+    return render_template('categories/interview.html',pitches=pitches,user= current_user)
 
 
 @main.route('/category/product', methods=['POST','GET'])
