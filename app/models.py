@@ -32,3 +32,60 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
+
+
+
+#pitches class
+class Pitch(db.Model):
+    """ List of pitches in each category """
+
+    __tablename__ = 'pitches'
+
+    id = db.Column(db.Integer,primary_key = True)
+    title = db.Column(db.String)
+    content = db.Column(db.String)
+    category_name = db.Column(db.String)
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    likes = db.Column(db.Integer)
+    dislikes = db.Column(db.Integer)
+    
+    comments = db.relationship('Comment', backref = 'pitch', lazy = "dynamic")
+
+
+    def save_pitch(self):
+        ''' Save the pitches '''
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def clear_pitches(cls):
+        Pitch.all_pitches.clear()
+
+    # display pitches
+
+    def get_pitches(category):
+
+        pitches = Pitch.query.filter_by(category_name = category).all()
+
+      
+        return pitches
+    def getPitchId(cls,id):
+        pitch = Pitch.query.filter_by(id = id)
+
+class Comment(db.Model):
+    __tablename__= 'comments'
+ 
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String(500))
+    user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
+    pitch_id = db.Column(db.Integer,db.ForeignKey("pitches.id"))
+
+    def saveComment(self):
+        db.session.add(self)
+        db.session.commit()
+        
+
+    @classmethod
+    def getComments(cls,pitch):
+        comments = Comment.query.filter_by(pitch_id=pitch).all()
+        return comments
