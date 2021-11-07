@@ -84,3 +84,31 @@ def display_pickuplines():
     pitches = Pitch.get_pitches('Pickup')
     return render_template('categories/pickup.html',pitches=pitches)
 
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))
+
+
+
+@main.route('/comment/<int:id>',methods= ['POST','GET'])
+@login_required
+def viewPitch(id):
+    comments = Comment.getComments(id)
+
+    commentForm = CommentForm()
+    if commentForm.validate_on_submit():
+        comment = commentForm.text.data
+
+        newComment = Comment(comment = comment, user  = current_user,pitch_id= id)
+
+        newComment.saveComment()
+
+    return render_template('comment.html',commentForm = commentForm,comments = comments)
