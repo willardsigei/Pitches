@@ -56,3 +56,31 @@ def newPitch():
         return redirect(url_for('.index'))
     title = 'NEW PITCH'
     return render_template('new_pitch.html',title = title, new_pitch = pitch)
+
+@main.route('/category/interview', methods=['POST','GET'])
+def display_interview():
+    
+    pitches = Pitch.get_pitches('interview')
+    return render_template('categories/interview.html',pitches=pitches)
+
+
+@main.route('/category/product', methods=['POST','GET'])
+def display_product():
+    
+    pitches = Pitch.get_pitches('product')
+    return render_template('categories/product.html',pitches=pitches)
+
+
+@main.route('/category/promotion', methods=['POST','GET'])
+def display_promotion():
+    
+    pitches = Pitch.get_pitches('promotion')
+    return render_template('categories/promotion.html',pitches=pitches)
+
+
+@main.route('/category/pickuplines', methods=['POST','GET'])
+def display_pickuplines():
+    
+    pitches = Pitch.get_pitches('Pickup')
+    return render_template('categories/pickup.html',pitches=pitches)
+
